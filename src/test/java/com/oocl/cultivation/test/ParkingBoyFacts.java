@@ -7,6 +7,8 @@ import com.oocl.cultivation.ParkingTicket;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -84,5 +86,18 @@ class ParkingBoyFacts {
         assertNull(car);
     }
 
+    @Test
+    void should_not_able_to_park_if_no_position() {
+        ParkingLot parkingLot = new ParkingLot();
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
 
+        IntStream.range(0, 10).mapToObj(car -> new Car()).
+                forEach(parkingBoy::park);
+
+        Car car = new Car();
+
+        ParkingTicket parkingTicket = parkingBoy.park(car);
+
+        assertNull(parkingTicket);
+    }
 }
