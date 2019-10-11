@@ -11,7 +11,7 @@ public class ParkingBoy {
 
     public ParkingTicket park(Car car) {
         ParkingTicket parkingTicket = new ParkingTicket();
-        if(parkingLot.getAvailableParkingPosition() <= 0){
+        if(parkingLot.getAvailableParkingPosition() == 0){
             return null;
         }
         return parkingLot.park(car, parkingTicket);
