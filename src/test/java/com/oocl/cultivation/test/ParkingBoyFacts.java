@@ -69,4 +69,20 @@ class ParkingBoyFacts {
 
         assertNull(fetchedCar);
     }
+
+    @Test
+    void should_not_fetch_car_if_ticket_already_used() {
+        ParkingLot parkingLot = new ParkingLot();
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        Car car = new Car();
+        ParkingTicket parkingTicket = parkingBoy.park(car);
+
+        car = parkingBoy.fetch(parkingTicket);
+        assertNotNull(car);
+
+        car = parkingBoy.fetch(parkingTicket);
+        assertNull(car);
+    }
+
+
 }
