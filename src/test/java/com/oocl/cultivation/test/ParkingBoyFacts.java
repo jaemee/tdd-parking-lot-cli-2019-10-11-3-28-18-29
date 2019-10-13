@@ -106,17 +106,17 @@ class ParkingBoyFacts {
         Car car = new Car();
         ParkingTicket ticket = (parkingBoy.park(car));
 
-        car = parkingBoy.fetch(ticket);
+        parkingBoy.fetch(ticket);
         String message = parkingBoy.getLastErrorMessage();
-        assertEquals(null, message);
+        assertNull(message);
 
-        car = parkingBoy.fetch(ticket);
+        parkingBoy.fetch(ticket);
         message = parkingBoy.getLastErrorMessage();
         assertEquals(expectedMessage, message);
 
         parkingBoy = new ParkingBoy(parkingLot);
         ticket = new ParkingTicket();
-        car = parkingBoy.fetch(ticket);
+        parkingBoy.fetch(ticket);
         message = parkingBoy.getLastErrorMessage();
         assertEquals(expectedMessage, message);
     }
@@ -127,9 +127,9 @@ class ParkingBoyFacts {
         ParkingLot parkingLot = new ParkingLot();
         ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
         Car car = new Car();
-        ParkingTicket ticket = (parkingBoy.park(car));
+        parkingBoy.park(car);
 
-        car = parkingBoy.fetch(null);
+        parkingBoy.fetch(null);
         String message = parkingBoy.getLastErrorMessage();
         assertEquals(expectedMessage, message);
     }
@@ -191,7 +191,7 @@ class ParkingBoyFacts {
 
         smartParkingBoy = new SmartParkingBoy(parkingLots);
         Car car = new Car();
-        ParkingTicket ticket = smartParkingBoy.park(car);
+        smartParkingBoy.park(car);
         assertEquals(9, parkingLot3.getAvailableParkingSpace());
     }
 
@@ -221,7 +221,7 @@ class ParkingBoyFacts {
 
         superSmartParkingBoy = new SmartParkingBoy(parkingLots);
         Car car = new Car();
-        ParkingTicket ticket = superSmartParkingBoy.park(car);
+        superSmartParkingBoy.park(car);
         assertEquals(6, parkingLot2.getAvailableParkingSpace());
     }
 
