@@ -1,9 +1,6 @@
 package com.oocl.cultivation.test;
 
-import com.oocl.cultivation.Car;
-import com.oocl.cultivation.ParkingBoy;
-import com.oocl.cultivation.ParkingLot;
-import com.oocl.cultivation.ParkingTicket;
+import com.oocl.cultivation.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -92,8 +89,7 @@ class ParkingBoyFacts {
         ParkingLot parkingLot = new ParkingLot();
         ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
 
-        IntStream.range(0, 10).mapToObj(car -> new Car()).
-                forEach(parkingBoy::park);
+        parkMultipleCars(parkingBoy, 0, 10);
 
         Car car = new Car();
 
@@ -145,8 +141,7 @@ class ParkingBoyFacts {
         ParkingLot parkingLot = new ParkingLot();
         ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
 
-        IntStream.range(0, 10).mapToObj(car -> new Car()).
-                forEach(parkingBoy::park);
+        parkMultipleCars(parkingBoy, 0, 10);
 
         Car car = new Car();
 
@@ -164,12 +159,47 @@ class ParkingBoyFacts {
         parkingLots.add(parkingLot2);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
 
-        IntStream.rangeClosed(1, 10).mapToObj(car -> new Car()).
-                forEach(parkingBoy::park);
+        parkMultipleCars(parkingBoy, 0, 10);
 
         Car car = new Car();
         ParkingTicket ticket = parkingBoy.park(car);
         assertNotEquals(parkingLot1.fetch(ticket), car);
         assertEquals(parkingLot2.fetch(ticket), car);
+    }
+
+    @Test
+    void should_park_in_parking_with_most_space_left() {
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        ParkingLot parkingLot3 = new ParkingLot();
+
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(parkingLot1);
+        parkingLots.add(parkingLot2);
+        parkingLots.add(parkingLot3);
+        ParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot1);
+
+        parkMultipleCars(smartParkingBoy, 1, 4);
+
+        smartParkingBoy = new SmartParkingBoy(parkingLot2);
+        parkMultipleCars(smartParkingBoy, 1, 10);
+
+
+        assertTrue(parkingLot3.getAvailableParkingSpace() > parkingLot1.getAvailableParkingSpace());
+        assertTrue(parkingLot3.getAvailableParkingSpace() > parkingLot2.getAvailableParkingSpace());
+        assertEquals(10, parkingLot3.getAvailableParkingSpace());
+
+
+        smartParkingBoy = new SmartParkingBoy(parkingLots);
+        Car car = new Car();
+        ParkingTicket ticket = smartParkingBoy.park(car);
+        assertEquals(9, parkingLot3.getAvailableParkingSpace());
+    }
+
+
+
+    private void parkMultipleCars(ParkingBoy parkingBoy, int min, int max) {
+        IntStream.rangeClosed(min, max).mapToObj(car -> new Car()).
+                forEach(parkingBoy::park);
     }
 }

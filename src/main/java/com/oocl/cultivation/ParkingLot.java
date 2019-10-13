@@ -9,15 +9,14 @@ public class ParkingLot {
 
     public ParkingLot() {
         this(10);
-        this.cars.put(new ParkingTicket(), new Car());
     }
 
     public ParkingLot(int capacity) {
         this.capacity = capacity;
     }
 
-    public int getAvailableParkingPosition() {
-        return cars.size() - capacity;
+    public int getAvailableParkingSpace() {
+        return capacity - cars.size();
     }
 
     public ParkingTicket park(Car car, ParkingTicket parkingTicket) {
