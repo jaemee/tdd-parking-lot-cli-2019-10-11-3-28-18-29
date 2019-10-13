@@ -184,7 +184,6 @@ class ParkingBoyFacts {
         smartParkingBoy = new SmartParkingBoy(parkingLot2);
         parkMultipleCars(smartParkingBoy, 1, 10);
 
-
         assertTrue(parkingLot3.getAvailableParkingSpace() > parkingLot1.getAvailableParkingSpace());
         assertTrue(parkingLot3.getAvailableParkingSpace() > parkingLot2.getAvailableParkingSpace());
         assertEquals(10, parkingLot3.getAvailableParkingSpace());
@@ -196,7 +195,35 @@ class ParkingBoyFacts {
         assertEquals(9, parkingLot3.getAvailableParkingSpace());
     }
 
+    @Test
+    void should_park_in_highest_space_rate() {
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        ParkingLot parkingLot3 = new ParkingLot();
 
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(parkingLot1);
+        parkingLots.add(parkingLot2);
+        parkingLots.add(parkingLot3);
+        ParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLot3);
+
+        parkMultipleCars(superSmartParkingBoy, 1, 4);
+
+        superSmartParkingBoy = new SmartParkingBoy(parkingLot1);
+        parkMultipleCars(superSmartParkingBoy, 1, 10);
+
+        superSmartParkingBoy = new SmartParkingBoy(parkingLot2);
+        parkMultipleCars(superSmartParkingBoy, 1, 3);
+
+        assertEquals(0, parkingLot1.getAvailableParkingSpace());
+        assertEquals(7, parkingLot2.getAvailableParkingSpace());
+        assertEquals(6, parkingLot3.getAvailableParkingSpace());
+
+        superSmartParkingBoy = new SmartParkingBoy(parkingLots);
+        Car car = new Car();
+        ParkingTicket ticket = superSmartParkingBoy.park(car);
+        assertEquals(6, parkingLot2.getAvailableParkingSpace());
+    }
 
     private void parkMultipleCars(ParkingBoy parkingBoy, int min, int max) {
         IntStream.rangeClosed(min, max).mapToObj(car -> new Car()).

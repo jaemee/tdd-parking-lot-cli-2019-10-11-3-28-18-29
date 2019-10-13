@@ -35,4 +35,7 @@ public class ParkingLot {
         return cars.size() <= capacity;
     }
 
+    public int getCapacity() {
+        return this.capacity;
+    }
 }
