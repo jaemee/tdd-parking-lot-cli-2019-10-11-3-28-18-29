@@ -31,4 +31,9 @@ public class ParkingLot {
         cars.remove(ticket);
         return car;
     }
+
+    public boolean hasSpace() {
+        return cars.size() <= capacity;
+    }
+
 }
